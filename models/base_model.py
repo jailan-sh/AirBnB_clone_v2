@@ -15,7 +15,7 @@ class BaseModel:
     id = Column(string(60), unique=True, nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if len(kwargs) != 0:
@@ -26,7 +26,7 @@ class BaseModel:
                     value = datetime.fromisoformat(value)
                 setattr(self, key, value)
             if "id" not in kwargs:
-                    self.id = str(uuid.uuid4())
+                self.id = str(uuid.uuid4())
             if "created_at" not in kwargs:
                 self.created_at = self.updated_at = datetime.now()
         else:
@@ -58,7 +58,7 @@ class BaseModel:
         if _sa_instance_state in dictionary:
             del dictionary[_sa_instance_state]
         return dictionary
-    
+
     def delete(self):
         """ delete the current instance from the storage """
         modele.storage.delete(self)
