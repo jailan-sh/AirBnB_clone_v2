@@ -30,7 +30,28 @@ class DBStorage:
                                       format(user, password, host, database),
                                       pool_pre_ping=True)
         if os.environ.get('HBNB_ENV') == 'test':
-            Base.metadata.drop_all(self.__engine)
-        else:
-            Base.metadata.create_all(self.__engine)
+            Base.metadata.drop_all(bind=self.__engine)
+            
+    def all(self, cls=None):
+        """query on the current database session,
+        all objects depending of the class name"""
+        session = self.__session
+        
+    def new(self, obj):
+        """ add the object to the current database session """
+        if obj:
+            self.__session.add(obj)
+    
+    def save(self):
+        """ commit all changes of the current database session """
+        self.__session.commit()
+    
+    def delete(self, obj=None):
+        """ delete from module import symbol
+        the current database session obj if not None """
+        if obj:
+            self.__session.delete(obj)
+    
+    
+
         
