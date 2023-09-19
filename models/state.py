@@ -14,4 +14,4 @@ class State(BaseModel, Base):
     cities = relationship(City, cascade="all, delete, delete_orphan", backref="state")
     @property
     def cities (self):
-        return (city for city in self.cities if State.id = city.state_id)
+        return (city for city in self.cities if State.id == city.state_id)
