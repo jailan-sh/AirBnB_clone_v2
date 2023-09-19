@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 
 class City(BaseModel, Base):
@@ -10,3 +11,6 @@ class City(BaseModel, Base):
     __tablename__ = 'cities'
     state_id = Column(String(60), nullable=False, ForeignKey("states.id"))
     name = column(string(128), nullable=False)
+    places = relationship("Place",
+                          backref="cities",
+                          cascade="all, delete, delete-orphan")
