@@ -8,10 +8,9 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-import os
+from sqlalchemy.orm import sessionmaker, scoped_session
+from os import getenv
 
 
 class DBStorage:
@@ -21,15 +20,15 @@ class DBStorage:
 
     def __init__(self):
         """constructor for DBstorage class"""
-        user =  os.environ.get('HBNB_MYSQL_USER')
-        password = os.environ.get('HBNB_MYSQL_PWD')
-        host =  os.environ.get('HBNB_MYSQL_HOST')
-        database = os.environ.get('HBNB_MYSQL_DB')
+        user = getenv("HBNB_MYSQL_USER")
+        password = getenv('HBNB_MYSQL_PWD')
+        host = getenv('HBNB_MYSQL_HOST')
+        database = getenv('HBNB_MYSQL_DB')
         
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(user, password, host, database),
                                       pool_pre_ping=True)
-        if os.environ.get('HBNB_ENV') == 'test':
+        if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(bind=self.__engine)
             
     def all(self, cls=None):
@@ -41,11 +40,6 @@ class DBStorage:
             tables = [User, State, City, Amenity, Place, Review]
 
         else:
-<<<<<<< HEAD
-            Base.metadata.create_all(self.__engine)
-    
-        
-=======
             if type(cls) == str:
                 cls = eval(csl)
 
@@ -75,7 +69,10 @@ class DBStorage:
         if obj:
             self.__session.delete(obj)
     
-    
+    def reload(self):
+        """ create all tables in the database """
+        Base.metadata.create_all(self.__engine)
+        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        self.__session = scoped_session(Session)
 
->>>>>>> eae15c5b131aeff04767d06c187ef948158f9297
         
