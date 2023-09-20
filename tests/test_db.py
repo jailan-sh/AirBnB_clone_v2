@@ -5,6 +5,7 @@ module to test console
 
 import unittest
 from models.engine.file_storage import DBStorage
+import os
 
 
 class test_dbstorage(unittest.TestCase):
