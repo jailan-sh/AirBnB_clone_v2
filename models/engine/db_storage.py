@@ -26,12 +26,12 @@ class DBStorage:
         host = environ.get('HBNB_MYSQL_HOST')
         database = environ.get('HBNB_MYSQL_DB')
         envv = environ.get('HBNB_ENV')
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
-                                      format(user, password, host, database),
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
+                                      .format(user, password, host, database),
                                       pool_pre_ping=True)
         if envv == 'test':
             Base.metadata.drop_all(bind=self.__engine)
-            
+
     def all(self, cls=None):
         """query on the current database session,
         all objects depending of the class name"""
@@ -39,34 +39,32 @@ class DBStorage:
         if cls:
             objects = self.__session.query(eval(cls)).all()
         else:
-            objects = self.__session.query(User, State, City, Amenity, Place, Review).all()
-        return {'{}.{}'.format(type(object).__name__, object.id): object for object in objects}
-            
-        
+            objects = self.__session.query(State).all()
+            objects.extend(self.__session.query(City).all())
+        return {'{}.{}'.format(type(object).__name__, object.id): object
+                for object in objects}
+
     def new(self, obj):
         """ add the object to the current database session """
         if obj:
             self.__session.add(obj)
-    
+
     def save(self):
         """ commit all changes of the current database session """
         self.__session.commit()
-    
+
     def delete(self, obj=None):
         """ delete from module import symbol
         the current database session obj if not None """
         if obj:
             self.__session.delete(obj)
-    
+
     def reload(self):
         """ create all tables in the database """
         Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        session = scoped_session(Session)
-        self.__session = session()
-        
+        self.__session = scoped_session(Session)
+
         def close(self):
             """Closes Session"""
         self.__session.close()
-
-        
