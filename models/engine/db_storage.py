@@ -35,7 +35,6 @@ class DBStorage:
     def all(self, cls=None):
         """query on the current database session,
         all objects depending of the class name"""
-        session = self.__session
         if cls:
             objects = self.__session.query(eval(cls)).all()
         else:
