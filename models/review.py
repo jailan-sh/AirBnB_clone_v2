@@ -6,7 +6,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 
-
 class Review(BaseModel):
     """ Review classto store review information """
     __tablename__ = 'reviews'

@@ -42,6 +42,7 @@ class DBStorage:
             objects = self.__session.query(State).all()
             objects.extend(self.__session.query(City).all())
             objects.extend(self.__session.query(User).all())
+            objects.extend(self.__session.query(Place).all())
         return {'{}.{}'.format(type(object).__name__, object.id): object
                 for object in objects}
 
