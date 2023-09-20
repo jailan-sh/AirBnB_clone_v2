@@ -36,6 +36,24 @@ class DBStorage:
         """query on the current database session,
         all objects depending of the class name"""
         session = self.__session
+        dic = {}
+        if not cls:
+            tables = [User, State, City, Amenity, Place, Review]
+
+        else:
+            if type(cls) == str:
+                cls = eval(csl)
+
+            tables = [cls]
+
+        for table in tables:
+            query = session.query(table).all()
+
+            for rows in query:
+                key = "{}.{}".format(type(rows).__name__, rows.id)
+                dic[key] = rows
+
+        return dic
         
     def new(self, obj):
         """ add the object to the current database session """
