@@ -29,7 +29,7 @@ class BaseModel:
             if "created_at" not in kwargs:
                 self.created_at = self.updated_at = datetime.now()
         else:
-            self.id = str(uuid4())
+            self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             self.__dict__.update(kwargs)
@@ -54,8 +54,8 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        if _sa_instance_state in dictionary:
-            del dictionary[_sa_instance_state]
+        if '_sa_instance_state' in dictionary:
+            del dictionary['_sa_instance_state']
         return dictionary
 
     def delete(self):
