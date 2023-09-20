@@ -8,7 +8,7 @@ from models.engine.file_storage import DBStorage
 import os
 
 
-class test_dbstorage(unittest.TestCase):
+class TestDBstorage(unittest.TestCase):
     """
     test dbstorage 
     """
