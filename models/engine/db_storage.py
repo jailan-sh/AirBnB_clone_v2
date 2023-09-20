@@ -20,15 +20,15 @@ class DBStorage:
 
     def __init__(self):
         """constructor for DBstorage class"""
-        user = getenv("HBNB_MYSQL_USER")
+        user = getenv('HBNB_MYSQL_USER')
         password = getenv('HBNB_MYSQL_PWD')
         host = getenv('HBNB_MYSQL_HOST')
         database = getenv('HBNB_MYSQL_DB')
-        
+        envv = getenv("HBNB_ENV", "none")
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(user, password, host, database),
                                       pool_pre_ping=True)
-        if getenv('HBNB_ENV') == 'test':
+        if envv == 'test':
             Base.metadata.drop_all(bind=self.__engine)
             
     def all(self, cls=None):
