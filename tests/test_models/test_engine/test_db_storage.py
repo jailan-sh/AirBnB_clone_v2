@@ -15,4 +15,4 @@ class TestDBstorage(unittest.TestCase):
     """
     def test_documentation(self):
         """ test db docs"""
-        self.assertIsNOTNone(DBStorage.__doc__)
+        self.assertIsNotNone(DBStorage.__doc__)

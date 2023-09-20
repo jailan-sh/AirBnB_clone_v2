@@ -13,4 +13,4 @@ class TestConsole(unittest.TestCase):
     """
     def test_console_documentation(self):
         """ test console docs"""
-        self.assertIsNOTNone(console.__doc__)
+        self.assertIsNotNone(console.__doc__)
