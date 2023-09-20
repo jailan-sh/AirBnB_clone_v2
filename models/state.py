@@ -2,16 +2,26 @@
 """ State Module for HBNB project """
 from models.base_model import BaseModel, Base
 from models.city import City
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+import models
+import os
 
 
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    cities = relationship(City, cascade="all, delete, delete_orphan", backref="state")
-    @property
-    def cities (self):
-        return (city for city in self.cities if State.id == city.state_id)
+    if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
+        cities = relationship(City, cascade="all, delete", backref="state")
+    else:
+        @property
+        def cities (self):
+            """returns the list of City instances with state_id equals to the current State.id"""
+            cities_list = []
+            for city in models.storage.all(City).values():
+                if city.state_id == Self.id:
+                    cities_list.append(city)
+            return cities_list
+                    
