@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Sets up a web server for deployment of a static website:
 
-if ! which nginx > /dev/null 2>&1;
+if ! command -v nginx > /dev/null 2>&1;
 then
     sudo apt-get update
     sudo apt-get -y install nginx

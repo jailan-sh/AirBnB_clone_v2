@@ -13,6 +13,6 @@ def do_pack():
     if os.path.isdir("versions") is False:
         local('mkdir versions')
     file = "versions/web_static_{}.tgz".format(dt)
-    if local('tar -czvf {} web_static'.format(file)).failed is True :
+    if local('tar -czvf {} web_static'.format(file)).failed is True:
         return None
     return file
