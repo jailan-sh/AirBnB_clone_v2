@@ -14,16 +14,18 @@ def do_deploy(archive_path):
     if os.path.isfile(archive_path) is False:
         return False
     try:
-        file = archive_path.split('/')[-1].split('.')[0]
-        zipt = archive_path.split('/')[-1]
-        path = "/data/web_static/releases/{}".format(file)
+        localpath = archive_path.split('/')[1]
+        newpath = localpath.split('.')[0]
+        rempath = "/data/web_static/releases/"
 
-        put(archive_path, '/tmp/')
-        run("mkdir {}".format(path))
-        run('tar -xzf /tmp/{} -C {}'.format(zipt, path))
-        run('rm -rf /tmp/{}'.format(zipt))
-        run("rm -rf /data/web_static/current")
-        run("ln -s {} /data/web_static/current".format(path))
+        put(archive_path, "/tmp/".format(localpath))
+        sudo("mkdir -p {}{}".format(rempath, newpath))
+        sudo("tar -xzf /tmp/{} -C {}{}".format(localpath, rempath, newpath))
+        sudo("rm /tmp/{}".format(localpath))
+        sudo("cp -r {0}{1}/web_static/* {0}{1}/".format(rempath, newpath))
+        sudo("rm -rf {}{}/web_static".format(rempath, newpath))
+        sudo("rm -rf /data/web_static/current")
+        sudo("ln -s {}{}/ /data/web_static/current".format(rempath, newpath))
         return True
     except:
         return False
