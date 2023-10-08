@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ a Fabric script that generates a .tgz archive """
+from datetime import datetime
 import os
 from fabric.api import *
 
