@@ -33,5 +33,11 @@ def python(text="is cool"):
     return "Python " + text.replace("_", " ")
 
 
+@airbnb.route("/number/<int:n>", strict_slashes=False, )
+def number(n):
+    """display n pass when number if it integer"""
+    return "{} is a number".format(n)
+
+
 if __name__ == "__main__":
     airbnb.run(host="0.0.0.0", port=5000, debug=True)
