@@ -16,20 +16,14 @@ def hello():
 
 @airbnb.route("/hbnb", strict_slashes=False)
 def about_hbnb():
-    """display anther route"""
+    """display hbnb"""
     return "HBNB"
 
 
-@airbnb.route("/c/is_fun", strict_slashes=False)
-def fun_c():
-    """display anther route"""
-    return "C is fun"
-
-
-@airbnb.route("/c/cool", strict_slashes=False)
-def cool_c():
-    """display anther route"""
-    return "C cool"
+@airbnb.route("/c/<text>", strict_slashes=False)
+def fun_c(text):
+    """display message pass when c is called"""
+    return "C " + text.replace("_", " ")
 
 
 if __name__ == "__main__":
