@@ -20,5 +20,17 @@ def about_hbnb():
     return "HBNB"
 
 
+@airbnb.route("/c/is_fun", strict_slashes=False)
+def fun_c():
+    """display anther route"""
+    return "C is fun"
+
+
+@airbnb.route("/c/cool", strict_slashes=False)
+def cool_c():
+    """display anther route"""
+    return "C cool"
+
+
 if __name__ == "__main__":
     airbnb.run(host="0.0.0.0", port=5000, debug=True)
