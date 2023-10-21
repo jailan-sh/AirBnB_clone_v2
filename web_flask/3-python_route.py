@@ -26,9 +26,9 @@ def fun_c(text):
     return "C " + text.replace("_", " ")
 
 
-@airbnb.route("/python", defaults={'text': "is cool"}, strict_slashes=False)
+@airbnb.route("/python", strict_slashes=False)
 @airbnb.route("/python/<text>", strict_slashes=False)
-def python(text):
+def python(text="is cool"):
     """display message pass when python is called"""
     return "Python "+ text.replace("_", " ")
 
