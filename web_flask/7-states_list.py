@@ -1,23 +1,24 @@
 #!/usr/bin/python3
 """ start web flASK"""
-from models import storage
-from models.state import State
 from flask import Flask, render_template
+from models import storage
+
 app = Flask(__name__)
 
 
-@app.teardown_appcontext
-def close_db(self):
-    """ Remove the current SQLAlchemy Session """
-    storage.close()
-
-
 @app.route('/states_list', strict_slashes=False)
-def states_list():
-    """ displays a HTML page with a list of states """
-    states = storage.all(State).values()
-    states = sorted(states, key=lambda k: k.name)
-    return render_template('7-states_list.html', states=states)
+def list_states():
+    """ Display a HTML page that lists all states and their Ids in a
+        sorted order
+    """
+    return render_template('7-states_list.html',
+                           states=storage.all('State').values())
+
+
+@app.teardown_appcontext
+def teardown(self):
+    """ Remove SQLAlchemy Session """
+    storage.close()
 
 
 if __name__ == "__main__":
