@@ -8,7 +8,7 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@airbnb.route("/", strict_slashes=False)
+@app.route("/", strict_slashes=False)
 def hello():
     """display hello"""
     return "Hello HBNB!"

@@ -8,13 +8,13 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@airbnb.route("/", strict_slashes=False)
+@app.route("/", strict_slashes=False)
 def hello():
     """display hello"""
     return "Hello HBNB!"
 
 
-@airbnb.route("/hbnb", strict_slashes=False)
+@app.route("/hbnb", strict_slashes=False)
 def about_hbnb():
     """display anther route"""
     return "HBNB"
