@@ -14,6 +14,10 @@ from os import getenv
 from os import environ
 
 
+classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
+
+
 class DBStorage:
     """ this class manage the db storage for hbnb clone"""
     __engine = None
@@ -36,7 +40,9 @@ class DBStorage:
         """query on the current database session,
         all objects depending of the class name"""
         if cls:
-            objects = self.__session.query(eval(cls)).all()
+            type(cls) == str:
+                cls = classes[cls]
+            objects = self.__session.query(cls).all()
         else:
             objects = self.__session.query(State).all()
             objects.extend(self.__session.query(City).all())
