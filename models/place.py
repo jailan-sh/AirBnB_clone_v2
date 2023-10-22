@@ -51,9 +51,10 @@ class Place(BaseModel, Base):
     if environ.get('HBNB_TYPE_STORAGE') == "db":
         reviews = relationship("Review",
                                backref="place",
-                               cascade="all, delete")
+                               cascade="all, delete,, delete-orphan")
         amenities = relationship("Amenity",
                                  secondary=place_amenity,
+                                 back_populates="place_amenities",
                                  viewonly=False)
 
     else:

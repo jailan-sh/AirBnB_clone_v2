@@ -14,10 +14,6 @@ from os import getenv
 from os import environ
 
 
-classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
-
-
 class DBStorage:
     """ this class manage the db storage for hbnb clone"""
     __engine = None
@@ -39,26 +35,26 @@ class DBStorage:
     def all(self, cls=None):
         """query on the current database session,
         all objects depending of the class name"""
-        new_dict = {}
-        if cls:
-            if type(cls) == str:
-                cls = classes[cls]
+        session = self.__session
+        dic = {}
+        if not cls:
+            tables = [User, State, City, Amenity, Place, Review]
 
-            objs = self.__session.query(cls).all()
-            for obj in objs:
-                key = obj.__class__.__name__ + "." + obj.id
-                new_dict[key] = obj
-
-            return new_dict
         else:
-            for cls in classes.values():
-                objs = self.__session.query(cls).all()
-                for obj in objs:
-                    key = obj.__class__.__name__ + "." + obj.id
-                    new_dict[key] = obj
+            if type(cls) == str:
+                cls = eval(csl)
 
-            return new_dict
-        
+            tables = [cls]
+
+        for t in tables:
+            query = session.query(t).all()
+
+            for rows in query:
+                key = "{}.{}".format(type(rows).__name__, rows.id)
+                dic[key] = rows
+
+        return dic
+
     def new(self, obj):
         """ add the object to the current database session """
         if obj:
@@ -82,8 +78,4 @@ class DBStorage:
 
         def close(self):
             """Closes Session"""
-        self.__session.close()
-    
-    def close(self):
-        """close seesion"""
         self.__session.close()

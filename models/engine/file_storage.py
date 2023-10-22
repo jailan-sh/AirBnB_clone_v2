@@ -69,7 +69,7 @@ class FileStorage:
                     break
         else:
             return
-    
+
     def close(self):
         """deserialization the jsonfile"""
         self.reload()
